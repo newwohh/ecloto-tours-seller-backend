@@ -7,9 +7,9 @@ import { UpdateOne } from "./handler";
 
 config();
 
-const secretKey: string | undefined = process.env.JWT_SECRET;
+export const secretKey: string | undefined = process.env.JWT_SECRET;
 
-const signToken = (id: string) => {
+export const signToken = (id: string) => {
   if (secretKey) {
     return jwt.sign({ id }, secretKey, {
       expiresIn: process.env.JWT_EXPIRES,

@@ -62,6 +62,21 @@ const GetOne = async (req: Request, res: Response, Model: Model<any>) => {
     returnError(res, error);
   }
 };
+const GetOneByid = async (req: Request, res: Response, Model: Model<any>) => {
+  try {
+    const id = req.params.id;
+    const data = await Model.find({ _id: id }).populate("tour");
+
+    console.log(data);
+
+    res.status(200).json({
+      status: "success",
+      data,
+    });
+  } catch (error: Error | any) {
+    returnError(res, error);
+  }
+};
 
 const UpdateOne = async (req: Request, res: Response, Model: Model<any>) => {
   try {
@@ -116,4 +131,5 @@ export {
   DeleteOne,
   UploadImage,
   GetOneByTour,
+  GetOneByid,
 };

@@ -16,6 +16,7 @@ import {
   GetAllReviews,
 } from "../controller/reviewController";
 import {
+  CreateBooking,
   DeleteBooking,
   GetBooking,
   GetBookings,
@@ -42,6 +43,7 @@ tourRouter.delete("/deleteReview/:id", DeleteReview);
 tourRouter.put("/updateReview/:id", UpdateReview);
 
 // Booking
+tourRouter.post("/newBooking", CreateBooking);
 tourRouter.get("/getBookings", GetBookings);
 tourRouter.get("/getBooking/:id", GetBooking);
 tourRouter.put("/updateBooking", UpdateBooking);

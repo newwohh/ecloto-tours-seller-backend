@@ -6,13 +6,14 @@ import express, {
   Response,
 } from "express";
 import { Server } from "http";
-import createHttpError from "http-errors";
 import { config } from "dotenv";
 import cookieParser from "cookie-parser";
 import { db } from "./db/db";
 import authRouter from "./routes/authRoutes";
 import tourRouter from "./routes/tourRoutes";
 import cors from "cors";
+import userAuthRouter from "./routes/userAuthRoutes";
+import paymentRouter from "./routes/paymentRoutes";
 
 config();
 
@@ -23,49 +24,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 db();
 
-// app.use(function (req, res, next) {
-//   res.header("Access-Control-Allow-Credentials", "true");
-//   res.header("Access-Control-Allow-Origin", req.headers.origin);
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept"
-//   );
-//   res.header(
-//     "Access-Control-Allow-Methods",
-//     "GET,PUT,POST,DELETE,UPDATE,OPTIONS"
-//   );
-
-//   next();
-// });
-
-// app.use(function (req, res, next) {
-//   res.setHeader("Access-Control-Allow-Credentials", "true");
-
-//   const origin = req.headers.origin;
-
-//   if (origin) {
-//     res.setHeader("Access-Control-Allow-Origin", "*"); // Set to * to allow requests from any origin.
-//   } else {
-//     res.setHeader("Access-Control-Allow-Origin", "http://yourdomain.com"); // Set to a specific domain or '*' for any origin
-//   }
-
-//   res.setHeader(
-//     "Access-Control-Allow-Headers",
-//     "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept"
-//   );
-//   res.setHeader(
-//     "Access-Control-Allow-Methods",
-//     "GET, PUT, POST, DELETE, UPDATE, OPTIONS"
-//   );
-
-//   next();
-// });
-
 app.use(cors());
 
 //Routes
 app.use("/eclototours/sellerapi/v1/seller", authRouter);
 app.use("/eclototours/sellerapi/v1/tour", tourRouter);
+app.use("/eclototours/sellerapi/v1/user", userAuthRouter);
+app.use("/eclototours/sellerapi/v1/payment", paymentRouter);
 
 const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   if (res.headersSent) {
@@ -80,7 +45,7 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   });
 };
 
-// app.use(errorHandler);
+app.use(errorHandler);
 
 const port: Number = Number(process.env.PORT) || 8000;
 const test = "tests";

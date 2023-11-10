@@ -2,7 +2,11 @@ import mongoose, { Document, Schema, Model, model } from "mongoose";
 import { ObjectId } from "mongodb";
 
 interface ITourBooking extends Document {
-  tour: ObjectId;
+  seller: ObjectId;
+  tour: {
+    _id: ObjectId;
+    name: string;
+  };
   user: ObjectId;
   createdAt: Date;
   price: number;
@@ -11,6 +15,11 @@ interface ITourBooking extends Document {
 }
 
 const tourBookingSchema: Schema = new Schema<ITourBooking>({
+  seller: {
+    type: Schema.Types.ObjectId,
+    ref: "Seller",
+    required: true,
+  },
   tour: {
     type: Schema.Types.ObjectId,
     ref: "Tour",
